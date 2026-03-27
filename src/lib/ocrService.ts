@@ -99,16 +99,22 @@ async function callOpenRouter(base64Image: string, systemPrompt: string, state: 
 }
 
 async function callOllama(base64Image: string, systemPrompt: string, state: AppState, signal?: AbortSignal, onChunk?: (chunk: string) => void): Promise<string> {
-  // 1. Check if model exists, if not pull it
   try {
-    const tagsRes = await fetch(`${state.ollamaUrl}/api/tags`, { signal });
+    const isNgrok = state.ollamaUrl.includes('ngrok');
+    const tagsRes = await fetch(`${state.ollamaUrl}/api/tags`, { 
+      signal,
+      headers: isNgrok ? { 'ngrok-skip-browser-warning': 'true' } : {}
+    });
     if (tagsRes.ok) {
       const data = await tagsRes.json();
       const models = data.models?.map((m: any) => m.name) || [];
       if (!models.includes(state.ollamaModel)) {
         await fetch(`${state.ollamaUrl}/api/pull`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            ...(state.ollamaUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {})
+          },
           body: JSON.stringify({ name: state.ollamaModel }),
           signal
         });
@@ -141,7 +147,8 @@ async function callOllama(base64Image: string, systemPrompt: string, state: AppS
   const res = await fetch(`${state.ollamaUrl}/api/chat`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...(state.ollamaUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {})
     },
     signal,
     body: JSON.stringify({

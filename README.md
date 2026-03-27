@@ -117,12 +117,22 @@ When running Textorcist on a hosted platform (like Render, Vercel, or Netlify), 
 
 ### 1. Ollama Connectivity (Mixed Content)
 Hosted sites use **HTTPS**, but local Ollama usually runs on **HTTP**. Browsers block this by default ("Mixed Content").
-- **Solution A (Tunneling)**: Use `ngrok http 11434` to create an HTTPS tunnel for your local Ollama instance and paste that URL into Textorcist settings.
-- **Solution B (Browser Fix)**: Set `OLLAMA_ORIGINS="*"` and allow "Insecure Content" for the Textorcist domain in your browser site settings.
+
+#### Solution A: Secure Tunneling (Recommended)
+Use **ngrok** to create a secure HTTPS bridge to your local machine:
+1.  **Authorize**: `ngrok config add-authtoken <YOUR_TOKEN>`
+2.  **Start Tunnel**: `ngrok http 11434 --host-header=localhost`
+3.  **Use URL**: Copy the dynamic HTTPS URL (e.g., `https://...ngrok-free.dev`) and paste it into Textorcist Settings under **Ollama Base URL**.
+
+*Alternative (No signup)*:
+`npx localtunnel --port 11434`
+
+#### Solution B: Browser Security Override
+Set `OLLAMA_ORIGINS="*"` on your local machine and allow "Insecure Content" for the Textorcist domain in your browser site settings (Click the lock icon in the URL bar > Site Settings > Insecure Content > Allow).
 
 ### 2. Hardware Monitoring
-The Hardware Monitor relies on a local background agent.
-- **Hosted**: This feature is disabled ("LOCAL ONLY") for privacy/security reasons as a static web app cannot probe your local OS.
+The Hardware Monitor requires a local agent to read system stats.
+- **Hosted**: Displays "LOCAL ONLY" (Disabled for privacy).
 - **Local**: Works automatically when running `npm run dev` with the companion agent.
 
 ## Requirements

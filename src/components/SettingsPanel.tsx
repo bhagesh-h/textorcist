@@ -20,7 +20,10 @@ export function SettingsPanel() {
   useEffect(() => {
     const checkOllama = async () => {
       try {
-        const res = await fetch(`${ollamaUrl}/api/tags`);
+        const isNgrok = ollamaUrl.includes('ngrok');
+        const res = await fetch(`${ollamaUrl}/api/tags`, {
+          headers: isNgrok ? { 'ngrok-skip-browser-warning': 'true' } : {}
+        });
         if (res.ok) {
           const data = await res.json();
           const models = data.models?.map((m: any) => m.name) || [];
