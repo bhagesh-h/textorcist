@@ -33,7 +33,18 @@ export function HardwareMonitor() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!stats) return null;
+  if (!stats) {
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    return (
+      <div className="flex items-center space-x-2 text-[10px] font-mono bg-slate-100/50 dark:bg-slate-800/50 px-3 py-1.5 border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-500 uppercase tracking-widest cursor-help group relative" title="Hardware monitoring requires a local agent.">
+        <Server size={12} className="opacity-50" />
+        <span>HARDWARE: {isLocal ? 'OFFLINE' : 'LOCAL ONLY'}</span>
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-48 p-2 bg-slate-900 text-white text-[9px] normal-case rounded shadow-xl z-50 pointer-events-none border border-slate-700">
+          Hardware monitoring requires the Textorcist agent to be running locally. In hosted environments, this feature is disabled for privacy and security.
+        </div>
+      </div>
+    );
+  }
 
   const memPercent = Math.round((stats.memUsed / stats.memTotal) * 100);
   const cpuPercent = Math.round(stats.cpuLoad);

@@ -166,8 +166,26 @@ export function SettingsPanel() {
                     </p>
                   </div>
                 ) : (
-                  <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-md text-sm dark:bg-red-900/30 dark:text-red-400 dark:border-red-800">
-                    Could not connect to Ollama at `{ollamaUrl}`. Ensure it's running.
+                  <div className="space-y-3">
+                    <div className="p-3 bg-red-50 text-red-700 border border-red-200 rounded-md text-[11px] dark:bg-red-900/10 dark:text-red-400 dark:border-red-900/50 font-mono">
+                      <p className="font-bold mb-1 uppercase tracking-widest">Connection Failure</p>
+                      <p>Could not connect to Ollama at `{ollamaUrl}`.</p>
+                      
+                      {window.location.protocol === 'https:' && ollamaUrl.startsWith('http:') && (
+                        <div className="mt-2 pt-2 border-t border-red-200 dark:border-red-900/50 space-y-2">
+                          <p className="text-amber-600 dark:text-amber-400 font-bold uppercase tracking-tighter">[SECURITY BLOCK DETECTED]</p>
+                          <p>You are using HTTPS (Render), but trying to connect to HTTP (Local). Browsers block this by default.</p>
+                          <div className="bg-white/50 dark:bg-black/20 p-2 rounded border border-red-100 dark:border-red-900/30">
+                            <p className="font-bold mb-1 underline">FIXES:</p>
+                            <ul className="list-disc pl-4 space-y-1">
+                              <li>Set <code className="bg-red-100 dark:bg-red-900/40 px-1 text-[10px]">OLLAMA_ORIGINS="*"</code> locally.</li>
+                              <li>Use a tunnel: <code className="bg-red-100 dark:bg-red-900/40 px-1 text-[10px]">ngrok http 11434</code> and paste the HTTPS URL above.</li>
+                              <li>Or, allow "Insecure Content" in Site Settings (Chrome).</li>
+                            </ul>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

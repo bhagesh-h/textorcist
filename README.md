@@ -111,6 +111,20 @@ curl https://openrouter.ai/api/v1/chat/completions \
   }'
 ```
 
+## Hosted vs. Local Execution
+
+When running Textorcist on a hosted platform (like Render, Vercel, or Netlify), certain local features require additional configuration due to browser security policies:
+
+### 1. Ollama Connectivity (Mixed Content)
+Hosted sites use **HTTPS**, but local Ollama usually runs on **HTTP**. Browsers block this by default ("Mixed Content").
+- **Solution A (Tunneling)**: Use `ngrok http 11434` to create an HTTPS tunnel for your local Ollama instance and paste that URL into Textorcist settings.
+- **Solution B (Browser Fix)**: Set `OLLAMA_ORIGINS="*"` and allow "Insecure Content" for the Textorcist domain in your browser site settings.
+
+### 2. Hardware Monitoring
+The Hardware Monitor relies on a local background agent.
+- **Hosted**: This feature is disabled ("LOCAL ONLY") for privacy/security reasons as a static web app cannot probe your local OS.
+- **Local**: Works automatically when running `npm run dev` with the companion agent.
+
 ## Requirements
 
 - Node.js version 18+ 
