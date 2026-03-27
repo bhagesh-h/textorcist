@@ -1,0 +1,4 @@
+# TEXTORCIST OCR
+# This translates to a Vite + React + TS environment.
+# Note: Actual dependencies are documented and installed via package.json.
+# This file serves as a placeholder for deployment environments requiring it.
