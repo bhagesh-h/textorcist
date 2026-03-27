@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="150" viewBox="0 0 600 150">
+  <!-- Dynamic Logo for TEXTORCIST OCR -->
+  <rect width="600" height="150" fill="none"/>
+  
+  <!-- Terminal Prompt Box -->
+  <rect x="20" y="45" width="80" height="60" rx="4" fill="#10b981" fill-opacity="0.1"/>
+  <rect x="20" y="45" width="80" height="60" rx="4" stroke="#10b981" stroke-width="2" stroke-opacity="0.2" fill="none"/>
+  <text x="35" y="90" font-family="monospace" font-weight="900" font-size="44" fill="#10b981">&gt;_</text>
+  
+  <!-- Branding Text -->
+  <text x="120" y="92" font-family="monospace" font-weight="900" font-size="52" fill="#10b981" letter-spacing="-1">TEXTORCIST</text>
+  <text x="460" y="92" font-family="sans-serif" font-weight="700" font-size="42" fill="#64748b">OCR</text>
+</svg>

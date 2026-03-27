@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="public/branding.svg" width="400" alt="TEXTORCIST OCR Logo" />
+</p>
+
 # Textorcist
 
 Textorcist is a modern, API-first client-side OCR web application designed to extract and format handwritten text from images. Developed with React, TypeScript, and Vite, it offers an entirely local, browser-based experience without relying on a back-end server for data processing or file storage.
@@ -59,7 +63,7 @@ This app is a static frontend. You can easily deploy it on [Render](https://rend
 4. Set the Publish Directory to: `dist`
 5. Click **Deploy**.
 
-*Note: Since this is a modern Node.js web application, it uses `package.json` for dependencies rather than a Python `requirements.txt`. However, a dummy `requirements.txt` has been included in the root to satisfy certain strict automated deployment detectors if needed.*
+*Note: Since this is a modern Node.js web application, it uses `package.json` for dependencies.
 
 ## API / CLI Usage (cURL)
 
