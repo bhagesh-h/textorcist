@@ -32,14 +32,19 @@ Textorcist is a modern, API-first client-side OCR web application designed to ex
 
 1. **Local Setup**:
    Ensure you have Node.js installed.
-   Clone the repository and run:
    ```bash
+   git clone https://github.com/bhagesh-h/textorcist.git
+   cd textorcist
    npm install
    npm run dev
    ```
 
 2. **Accessing the App**:
-   Navigate to `http://localhost:5173/` in your browser.
+   Navigate to `http://localhost:5173/` in your browser. Or, to preview the production build:
+   ```bash
+   npm run build
+   npm start
+   ```
 
 3. **Setting Up Providers**:
    - Click the "Settings" icon (top right).
@@ -52,18 +57,21 @@ Textorcist is a modern, API-first client-side OCR web application designed to ex
    - (Optional) Paste a formatting structure in the Template Editor.
    - Click "Extract Text". Toggle between "Formatted Output" and "Raw OCR Text" to view results.
 
+6. **One-Click Deploy**:
+   Click the "Deploy to Render" button (if configured) or manually connect your repository following the steps below.
+
 ## Deployment (Render.com)
 
-This app is a static frontend. You can easily deploy it on [Render](https://render.com/).
+Textorcist is a static frontend. You can easily deploy it on [Render](https://render.com/) or any other static site host (Vercel, Netlify, Cloudflare Pages).
 
 ### Deploying to Render
 1. Create a new **Static Site** on Render.
 2. Connect your GitHub repository.
-3. Set the Build Command to: `npm install && npm run build`
-4. Set the Publish Directory to: `dist`
+3. Set the **Build Command** to: `npm install && npm run build`
+4. Set the **Publish Directory** to: `dist`
 5. Click **Deploy**.
 
-*Note: Since this is a modern Node.js web application, it uses `package.json` for dependencies.
+*Note: Since this is a modern Node.js application, all dependencies are managed via `package.json` for a seamless build process.*
 
 ## API / CLI Usage (cURL)
 

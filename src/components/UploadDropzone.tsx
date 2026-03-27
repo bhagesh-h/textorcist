@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { UploadCloud, FileImage, X, Maximize2, Loader2 } from 'lucide-react';
+import { UploadCloud, X, Maximize2, Loader2 } from 'lucide-react';
 
 interface Props {
   files: File[];

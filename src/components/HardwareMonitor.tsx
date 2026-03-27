@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Cpu, Monitor, HardDrive, Server } from 'lucide-react';
 
 interface HardwareStats {

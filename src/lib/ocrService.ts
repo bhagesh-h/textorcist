@@ -1,5 +1,5 @@
 import type { AppState } from './store';
-import type { Provider } from './types';
+// removed unused Provider import
 
 // Convert browser File to base64
 export const fileToBase64 = (file: File): Promise<string> => {
@@ -247,7 +247,7 @@ async function callCustomOpenAI(base64Image: string, systemPrompt: string, state
   return data.choices?.[0]?.message?.content || "";
 }
 
-async function callHuggingFace(base64Image: string, systemPrompt: string, state: AppState, signal?: AbortSignal): Promise<string> {
+async function callHuggingFace(_base64Image: string, _systemPrompt: string, state: AppState, _signal?: AbortSignal): Promise<string> {
   if (!state.hfKey) throw new Error("Hugging Face API Key is missing");
   if (!state.hfModel) throw new Error("Hugging Face Model is not specified");
   

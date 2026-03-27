@@ -1,15 +1,18 @@
 {
-  "name": "textorcist-temp",
+  "name": "textorcist",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A high-performance terminal-themed client-side OCR dashboard.",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "vite preview"
   },
   "dependencies": {
+    "lucide-react": "^0.460.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-dropzone": "^15.0.0",
@@ -28,7 +31,6 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
-    "lucide-react": "^1.7.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
     "typescript": "~5.9.3",
