@@ -1,0 +1,23 @@
+# Docker Compose – Textorcist only.
+# Ollama is expected to be running on the host at localhost:11434.
+# The browser calls Ollama directly, so no inter-container networking is needed.
+#
+# Usage:
+#   docker compose up --build
+#
+# Make sure Ollama is running on your host before starting:
+#   ollama serve
+
+services:
+  textorcist:
+    build: .
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
