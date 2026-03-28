@@ -19,9 +19,9 @@ export async function processOcrRequest(
   onChunk?: (chunk: string) => void
 ): Promise<string> {
   const base64Image = await fileToBase64(file);
-  const systemPrompt = template 
-    ? `Transcribe the text from this image and map it perfectly into this template structure:\n${template}`
-    : `Transcribe all text from this image accurately.`;
+  const systemPrompt = template
+    ? `Transcribe the text from this image and map it perfectly into this template structure, Output exactly and only the mapped result without introductory text:\n${template}`
+    : `Transcribe all text from this image accurately. Output exactly and only the mapped result without introductory text`;
 
   return await routeRequest(base64Image, systemPrompt, state, file.type, signal, onChunk);
 }
@@ -56,12 +56,12 @@ async function routeRequest(base64Image: string, systemPrompt: string, state: Ap
 
 async function callOpenRouter(base64Image: string, systemPrompt: string, state: AppState, signal?: AbortSignal, onChunk?: (chunk: string) => void): Promise<string> {
   if (!state.openRouterKey) throw new Error("OpenRouter API Key is missing");
-  
-  const content = base64Image 
+
+  const content = base64Image
     ? [
-        { type: "text", text: systemPrompt },
-        { type: "image_url", image_url: { url: base64Image } }
-      ]
+      { type: "text", text: systemPrompt },
+      { type: "image_url", image_url: { url: base64Image } }
+    ]
     : systemPrompt;
 
   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -101,7 +101,7 @@ async function callOpenRouter(base64Image: string, systemPrompt: string, state: 
 async function callOllama(base64Image: string, systemPrompt: string, state: AppState, signal?: AbortSignal, onChunk?: (chunk: string) => void): Promise<string> {
   try {
     const isNgrok = state.ollamaUrl.includes('ngrok');
-    const tagsRes = await fetch(`${state.ollamaUrl}/api/tags`, { 
+    const tagsRes = await fetch(`${state.ollamaUrl}/api/tags`, {
       signal,
       headers: isNgrok ? { 'ngrok-skip-browser-warning': 'true' } : {}
     });
@@ -111,7 +111,7 @@ async function callOllama(base64Image: string, systemPrompt: string, state: AppS
       if (!models.includes(state.ollamaModel)) {
         await fetch(`${state.ollamaUrl}/api/pull`, {
           method: 'POST',
-          headers: { 
+          headers: {
             'Content-Type': 'application/json',
             ...(state.ollamaUrl.includes('ngrok') ? { 'ngrok-skip-browser-warning': 'true' } : {})
           },
@@ -127,11 +127,11 @@ async function callOllama(base64Image: string, systemPrompt: string, state: AppS
   const options: any = {
     temperature: 0.1,
   };
-  
+
   if (state.ollamaAccelerator === 'cpu') {
     options.num_gpu = 0;
   }
-  
+
   const messages: any[] = [
     {
       role: "user",
@@ -176,9 +176,9 @@ async function callGoogle(base64Image: string, systemPrompt: string, state: AppS
   if (!state.googleKey) throw new Error("Google API Key is missing");
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${state.googleModel}:generateContent?key=${state.googleKey}`;
-  
+
   const parts: any[] = [{ text: systemPrompt }];
-  
+
   if (base64Image) {
     const base64Data = base64Image.split(',')[1] || base64Image;
     parts.unshift({
@@ -189,7 +189,7 @@ async function callGoogle(base64Image: string, systemPrompt: string, state: AppS
     });
     parts[1].text = "Extract the text from this image."; // Override the prompt string slightly for vision
   }
-  
+
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -218,14 +218,14 @@ async function callCustomOpenAI(base64Image: string, systemPrompt: string, state
 
   let url = state.customUrl;
   if (!url.endsWith('/completions')) {
-         url = url.replace(/\/+$/, '') + '/chat/completions';
+    url = url.replace(/\/+$/, '') + '/chat/completions';
   }
 
-  const content = base64Image 
+  const content = base64Image
     ? [
-        { type: "text", text: systemPrompt },
-        { type: "image_url", image_url: { url: base64Image } }
-      ]
+      { type: "text", text: systemPrompt },
+      { type: "image_url", image_url: { url: base64Image } }
+    ]
     : systemPrompt;
 
   const res = await fetch(url, {
@@ -257,7 +257,7 @@ async function callCustomOpenAI(base64Image: string, systemPrompt: string, state
 async function callHuggingFace(_base64Image: string, _systemPrompt: string, state: AppState, _signal?: AbortSignal): Promise<string> {
   if (!state.hfKey) throw new Error("Hugging Face API Key is missing");
   if (!state.hfModel) throw new Error("Hugging Face Model is not specified");
-  
+
   throw new Error("Hugging Face vision models require highly specific payload schemas per-model. Please use OpenRouter for standardized HF model access.");
 }
 
@@ -267,10 +267,10 @@ async function handleSSE(res: Response, onChunk: (chunk: string) => void): Promi
   const reader = res.body?.getReader();
   const decoder = new TextDecoder("utf-8");
   let fullText = "";
-  
+
   if (!reader) throw new Error("No response body to stream");
-  
-  while(true) {
+
+  while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     const chunkStr = decoder.decode(value, { stream: true });
@@ -296,8 +296,8 @@ async function handleOllamaStream(res: Response, onChunk: (chunk: string) => voi
   const decoder = new TextDecoder("utf-8");
   let fullText = "";
   if (!reader) throw new Error("No response body to stream");
-  
-  while(true) {
+
+  while (true) {
     const { done, value } = await reader.read();
     if (done) break;
     const chunkStr = decoder.decode(value, { stream: true });

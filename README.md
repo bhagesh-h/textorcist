@@ -122,8 +122,6 @@ The Textorcist container runs **only Nginx** — it has no Python or Node.js run
 #### GPU acceleration (NVIDIA)
 The `docker-compose.yml` is already configured to expose NVIDIA GPUs to the container. Ensure you have the `nvidia-container-toolkit` installed on your host machine (or WSL2 GPU passthrough configured) to utilize GPU acceleration.
 
----
-
 ## Deployment (Render.com)
 
 Textorcist is a static frontend. You can easily deploy it on [Render](https://render.com/) or any other static site host (Vercel, Netlify, Cloudflare Pages).
